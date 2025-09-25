@@ -1,0 +1,1 @@
+ALTER TABLE Inf_InfracaoNaoTransmitida ADD MotivoProcessamento VARCHAR(800) NULL

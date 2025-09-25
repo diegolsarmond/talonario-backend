@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Api", "1 - Api", "{50470A05-A9E0-4960-9955-3ACBF855972E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Talonario.Api.Server.Api", "src\Talonario.Api.Server.Api\Talonario.Api.Server.Api.csproj", "{C98460CC-A7B7-4B98-9B02-B5F8BA8C9408}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{8E6427F2-4F85-4A97-A926-353BFDE462E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infrastructure", "3 - Infrastructure", "{EE249EE8-394A-4E5B-9D2C-7DE1093A7727}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Talonario.Api.Server.Application", "src\Talonario.Api.Server.Application\Talonario.Api.Server.Application.csproj", "{8CDB1B16-A20E-4A52-8B82-F7929060C0E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Talonario.Api.Server.InfraStructure", "src\Talonario.Api.Server.InfraStructure\Talonario.Api.Server.InfraStructure.csproj", "{96F82256-D20A-4FDC-A082-479DDA17D173}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Tests", "4 - Tests", "{576DF742-2861-4A11-8BBE-D6493BB77C01}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalonarioTests", "TalonarioTests\TalonarioTests.csproj", "{B7D62479-5CA5-4C02-94E3-AA384CB8A156}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C98460CC-A7B7-4B98-9B02-B5F8BA8C9408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C98460CC-A7B7-4B98-9B02-B5F8BA8C9408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C98460CC-A7B7-4B98-9B02-B5F8BA8C9408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C98460CC-A7B7-4B98-9B02-B5F8BA8C9408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CDB1B16-A20E-4A52-8B82-F7929060C0E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CDB1B16-A20E-4A52-8B82-F7929060C0E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CDB1B16-A20E-4A52-8B82-F7929060C0E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CDB1B16-A20E-4A52-8B82-F7929060C0E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96F82256-D20A-4FDC-A082-479DDA17D173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96F82256-D20A-4FDC-A082-479DDA17D173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96F82256-D20A-4FDC-A082-479DDA17D173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96F82256-D20A-4FDC-A082-479DDA17D173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7D62479-5CA5-4C02-94E3-AA384CB8A156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7D62479-5CA5-4C02-94E3-AA384CB8A156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7D62479-5CA5-4C02-94E3-AA384CB8A156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7D62479-5CA5-4C02-94E3-AA384CB8A156}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C98460CC-A7B7-4B98-9B02-B5F8BA8C9408} = {50470A05-A9E0-4960-9955-3ACBF855972E}
+		{8CDB1B16-A20E-4A52-8B82-F7929060C0E8} = {8E6427F2-4F85-4A97-A926-353BFDE462E2}
+		{96F82256-D20A-4FDC-A082-479DDA17D173} = {EE249EE8-394A-4E5B-9D2C-7DE1093A7727}
+		{B7D62479-5CA5-4C02-94E3-AA384CB8A156} = {576DF742-2861-4A11-8BBE-D6493BB77C01}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D97EF9C4-5680-493D-BEBC-0E8F44263720}
+	EndGlobalSection
+EndGlobal

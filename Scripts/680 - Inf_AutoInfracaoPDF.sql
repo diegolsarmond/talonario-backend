@@ -1,0 +1,22 @@
+USE [dbDetranNetAtelier]
+GO
+
+/****** Object:  Table [dbo].[Inf_AutoInfracaoPDF]    Script Date: 15/10/2024 11:10:00 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Inf_AutoInfracaoPDF](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[ait] [varchar](50) NOT NULL,
+	[pdf] [varchar](max) NOT NULL,
+ CONSTRAINT [PK_Inf_AutoInfracaoPDF] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
