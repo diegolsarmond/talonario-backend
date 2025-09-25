@@ -55,6 +55,8 @@ namespace Talonario.Api.Server.Application
                 if (termoInput.aplicadoPorMatricula.Length > 8)
                     termoInput.aplicadoPorMatricula = termoInput.aplicadoPorMatricula.Substring(0, 8);
 
+                termoInput.termoConstatacao ??= new TermoConstatacaoDetalhesDto();
+
                 termoInput.termoConstatacao.matriculaTestemunha1 = ValidarCpfOuMatricula(termoInput.termoConstatacao?.matriculaTestemunha1);
                 termoInput.termoConstatacao.matriculaTestemunha2 = ValidarCpfOuMatricula(termoInput.termoConstatacao?.matriculaTestemunha2);
 
