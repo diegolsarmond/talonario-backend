@@ -53,7 +53,7 @@ namespace Talonario.Api.Server.Application.Interfaces.Repositories
 
         Task<bool> RemoverInfracaoAnexo(string ait);
 
-        Task<bool> RemoverInfracaoNaoTransmitidaPorAIT(string ait);
+        Task<int> AtualizarInfracaoNaoTransmitidaAsync(InfracaoNaoTransmitidaViewModel infracaoNaoTransmitida);
 
         Task<bool> RemoverInfracaoPdf(string ait);
 
