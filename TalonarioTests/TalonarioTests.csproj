@@ -34,6 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\src\Talonario.Api.Server.Api\Talonario.Api.Server.Api.csproj" />
     <ProjectReference Include="..\src\Talonario.Api.Server.Application\Talonario.Api.Server.Application.csproj" />
+    <ProjectReference Include="..\src\Talonario.Api.Server.InfraStructure\Talonario.Api.Server.InfraStructure.csproj" />
   </ItemGroup>
 
 </Project>
