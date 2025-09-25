@@ -535,10 +535,7 @@ namespace Talonario.Api.Server.InfraStructure.Repository
                             AND DataCancelamento IS NULL
                             AND (
                                 DataEnviado >= DATEADD(DAY, -1, GETDATE())
-                                OR (
-                                    DataEnviado IS NULL
-                                    AND TRY_CAST(JSON_VALUE(JSON, '$.dataAplicacao') AS DATETIME2) >= DATEADD(DAY, -5, GETDATE())
-                                )
+                                OR DataEnviado IS NULL
                             )
                         ORDER BY Id DESC;";
 
