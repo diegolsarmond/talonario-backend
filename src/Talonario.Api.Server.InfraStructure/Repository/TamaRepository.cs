@@ -16,19 +16,21 @@ namespace Talonario.Api.Server.InfraStructure.Repository
     {
         private readonly string _connectionString;
         private readonly ILogger<TamaRepository> _logger;
+        private readonly Func<DbConnection> _connectionFactory;
 
-        public TamaRepository(IConfiguration configuration, ILogger<TamaRepository> logger)
+        public TamaRepository(IConfiguration configuration, ILogger<TamaRepository> logger, Func<DbConnection> connectionFactory = null)
         {
             _connectionString = configuration.GetConnectionString("AtelierDataBase");
             _logger = logger;
+            _connectionFactory = connectionFactory ?? (() => new SqlConnection(_connectionString));
         }
 
         public async Task<TamaEntity> CadastrarTermoAdocaoMedidaAdministrativaAsync(TamaEntity entity)
         {
-            using (var db = new SqlConnection(_connectionString))
+            using (var db = _connectionFactory())
             {
                 await db.OpenAsync();
-                using (var transaction = (SqlTransaction)await db.BeginTransactionAsync())
+                await using (var transaction = await db.BeginTransactionAsync())
                 {
                     try
                     {
@@ -172,7 +174,7 @@ namespace Talonario.Api.Server.InfraStructure.Repository
             }
         }
 
-        private async Task ProcessarRelacionamentos(SqlConnection db, DbTransaction transaction, TamaEntity entity)
+        private async Task ProcessarRelacionamentos(DbConnection db, DbTransaction transaction, TamaEntity entity)
         {
             await db.ExecuteAsync(@"DELETE [dbo].[Inf_TermoAdocaoMedidaAdministrativa_EquipamentosObrigatoriosAusentes]
                                   WHERE [IdTama] = @IdTama",
@@ -182,22 +184,24 @@ namespace Talonario.Api.Server.InfraStructure.Repository
                                   WHERE [IdTama] = @IdTama",
                                   new { IdTama = entity.Id.Value }, transaction);
 
-            await db.ExecuteAsync(@"DELETE [dbo].[Inf_TermoAdocaoMedidaAdministrativa_AutosInfracao]
-                                  WHERE [IdTama] = @IdTama",
-                                  new { IdTama = entity.Id.Value }, transaction);
-
             if (!entity.Id.HasValue)
                 throw new Exception("O campo Id do Termo de Adoção está nulo.");
 
-            if (entity.AutosInfracao != null && entity.AutosInfracao.Any())
+            if (entity.AutosInfracao != null)
             {
-                foreach (var item in entity.AutosInfracao)
-                {
-                    try
-                    {
-                        Console.WriteLine($"Tentando inserir AutoInfracao: {item.Numero}, Tipo: {item.Tipo}");
+                await db.ExecuteAsync(@"DELETE [dbo].[Inf_TermoAdocaoMedidaAdministrativa_AutosInfracao]
+                                  WHERE [IdTama] = @IdTama",
+                                  new { IdTama = entity.Id.Value }, transaction);
 
-                        await db.ExecuteAsync(@"
+                if (entity.AutosInfracao.Any())
+                {
+                    foreach (var item in entity.AutosInfracao)
+                    {
+                        try
+                        {
+                            Console.WriteLine($"Tentando inserir AutoInfracao: {item.Numero}, Tipo: {item.Tipo}");
+
+                            await db.ExecuteAsync(@"
                         INSERT INTO [dbo].[Inf_TermoAdocaoMedidaAdministrativa_AutosInfracao]
                         ([IdTama], [Numero], [Tipo])
                         VALUES (@IdTama, @Numero, @Tipo)",
@@ -207,12 +211,17 @@ namespace Talonario.Api.Server.InfraStructure.Repository
                              item.Numero,
                              item.Tipo
                          }, transaction);
+                        }
+                        catch (Exception exItem)
+                        {
+                            Console.WriteLine($"Erro ao inserir AutoInfracao: {exItem.Message}");
+                            throw;
+                        }
                     }
-                    catch (Exception exItem)
-                    {
-                        Console.WriteLine($"Erro ao inserir AutoInfracao: {exItem.Message}");
-                        throw;
-                    }
+                }
+                else
+                {
+                    // Lista vazia recebida explicitamente: deleção acima mantém o estado sincronizado sem reinserções.
                 }
             }
 
