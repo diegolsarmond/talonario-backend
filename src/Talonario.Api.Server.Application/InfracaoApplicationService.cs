@@ -248,7 +248,10 @@ namespace Talonario.Api.Server.Application
         {
             infracaoNaoTransmitida.AIT = infracaoNaoTransmitida.AIT.Trim();
 
-            await _infracaoRepository.RemoverInfracaoNaoTransmitidaPorAIT(infracaoNaoTransmitida.AIT);
+            var linhasAtualizadas = await _infracaoRepository.AtualizarInfracaoNaoTransmitidaAsync(infracaoNaoTransmitida);
+
+            if (linhasAtualizadas > 0)
+                return linhasAtualizadas;
 
             var idInfracaoInserida = await _infracaoRepository.InserirInfracaoNaoTransmitida(infracaoNaoTransmitida);
             return idInfracaoInserida;

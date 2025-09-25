@@ -526,7 +526,9 @@ namespace Talonario.Api.Server.InfraStructure.Repository
                             JSON,
                             Tipo,
                             DataCancelamento,
-                            DataEnviado
+                            DataEnviado,
+                            MotivoProcessamento,
+                            DataInclusao
                         FROM Inf_InfracaoNaoTransmitida
                         WHERE
                             (Tipo = 'veiculo' OR Tipo IS NULL)
@@ -549,12 +551,14 @@ namespace Talonario.Api.Server.InfraStructure.Repository
         {
             string sql = $@"
                 SELECT
-	                Id,
-	                AIT,
-	                JSON,
-	                Tipo,
-	                DataCancelamento,
-	                DataEnviado
+                        Id,
+                        AIT,
+                        JSON,
+                        Tipo,
+                        DataCancelamento,
+                        DataEnviado,
+                        MotivoProcessamento,
+                        DataInclusao
                 FROM Inf_InfracaoNaoTransmitida
                 WHERE JSON_VALUE(JSON,'$.veiculoChassi') IS NOT NULL
                 AND JSON_VALUE(JSON,'$.veiculoPlaca') = ''
@@ -570,12 +574,14 @@ namespace Talonario.Api.Server.InfraStructure.Repository
         {
             string sql = $@"
                 SELECT
-	                Id,
-	                AIT,
-	                JSON,
-	                Tipo,
-	                DataCancelamento,
-	                DataEnviado
+                        Id,
+                        AIT,
+                        JSON,
+                        Tipo,
+                        DataCancelamento,
+                        DataEnviado,
+                        MotivoProcessamento,
+                        DataInclusao
                 FROM Inf_InfracaoNaoTransmitida
                 WHERE JSON_VALUE(JSON,'$.veiculoChassi') IS NOT NULL
                 AND JSON_VALUE(JSON,'$.veiculoPlaca') = ''
@@ -596,7 +602,9 @@ namespace Talonario.Api.Server.InfraStructure.Repository
                 JSON,
                 Tipo,
                 DataCancelamento,
-                DataEnviado
+                DataEnviado,
+                MotivoProcessamento,
+                DataInclusao
             FROM Inf_InfracaoNaoTransmitida
             WHERE Tipo = 'pedestre'
             ORDER BY Id DESC";
@@ -640,18 +648,30 @@ namespace Talonario.Api.Server.InfraStructure.Repository
             return result > 0;
         }
 
-        public async Task<bool> RemoverInfracaoNaoTransmitidaPorAIT(string ait)
+        public async Task<int> AtualizarInfracaoNaoTransmitidaAsync(InfracaoNaoTransmitidaViewModel infracaoNaoTransmitida)
         {
             string sql = $@"
-            DELETE FROM Inf_InfracaoNaoTransmitida
+            UPDATE Inf_InfracaoNaoTransmitida
+            SET JSON = @JSON,
+                Tipo = @Tipo,
+                DataCancelamento = @DataCancelamento,
+                DataEnviado = @DataEnviado,
+                MotivoProcessamento = @MotivoProcessamento,
+                DataInclusao = @DataInclusao
             WHERE AIT = @AIT";
 
             var result = await _connection.ExecuteAsync(sql, new
             {
-                AIT = ait,
+                AIT = infracaoNaoTransmitida.AIT,
+                JSON = infracaoNaoTransmitida.JSON,
+                Tipo = infracaoNaoTransmitida.Tipo?.Trim().ToLower(),
+                DataCancelamento = infracaoNaoTransmitida.DataCancelamento,
+                DataEnviado = infracaoNaoTransmitida.DataEnviado,
+                MotivoProcessamento = infracaoNaoTransmitida.MotivoProcessamento,
+                DataInclusao = infracaoNaoTransmitida.DataInclusao ?? DateTime.Now
             });
 
-            return result > 0;
+            return result;
         }
 
         public async Task<bool> RemoverInfracaoPdf(string ait)

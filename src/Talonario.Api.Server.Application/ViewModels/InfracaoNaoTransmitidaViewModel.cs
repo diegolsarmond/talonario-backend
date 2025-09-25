@@ -12,7 +12,9 @@ namespace Talonario.Api.Server.Application.ViewModels
             string json,
             string tipo,
             DateTime? dataCancelamento,
-            DateTime? dataEnviado
+            DateTime? dataEnviado,
+            string motivoProcessamento = null,
+            DateTime? dataInclusao = null
         )
         {
             Id = id;
@@ -21,6 +23,8 @@ namespace Talonario.Api.Server.Application.ViewModels
             Tipo = tipo;
             DataCancelamento = dataCancelamento;
             DataEnviado = dataEnviado;
+            MotivoProcessamento = motivoProcessamento;
+            DataInclusao = dataInclusao;
         }
 
         #endregion Public Constructors
@@ -38,6 +42,10 @@ namespace Talonario.Api.Server.Application.ViewModels
         public string JSON { get; set; }
 
         public string Tipo { get; set; }
+
+        public string MotivoProcessamento { get; set; }
+
+        public DateTime? DataInclusao { get; set; }
 
         #endregion Public Properties
     }

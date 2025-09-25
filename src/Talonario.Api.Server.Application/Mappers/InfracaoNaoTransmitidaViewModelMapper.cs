@@ -15,7 +15,9 @@ namespace Talonario.Api.Server.Application.Mappers
                 infracaoNaoTransmitidaEntity.JSON,
                 infracaoNaoTransmitidaEntity.Tipo == null ? "veiculo" : infracaoNaoTransmitidaEntity.Tipo,
                 infracaoNaoTransmitidaEntity.DataCancelamento,
-                infracaoNaoTransmitidaEntity.DataEnviado
+                infracaoNaoTransmitidaEntity.DataEnviado,
+                infracaoNaoTransmitidaEntity.MotivoProcessamento,
+                infracaoNaoTransmitidaEntity.DataInclusao
             );
         }
 
