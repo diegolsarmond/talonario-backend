@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using Talonario.Api.Server.Application.Entities;
@@ -15,16 +16,18 @@ namespace Talonario.Api.Server.InfraStructure.Repository
     {
         private readonly string _connectionString;
         private readonly ILogger<TermoRepository> _logger;
+        private readonly Func<DbConnection> _connectionFactory;
 
-        public TermoRepository(IConfiguration configuration, ILogger<TermoRepository> logger)
+        public TermoRepository(IConfiguration configuration, ILogger<TermoRepository> logger, Func<DbConnection> connectionFactory = null)
         {
             _connectionString = configuration.GetConnectionString("AtelierDataBase");
             _logger = logger;
+            _connectionFactory = connectionFactory ?? (() => new SqlConnection(_connectionString));
         }
 
         public TermoConstatacao CadastrarTermoConstatacao(TermoConstatacao termo)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = _connectionFactory())
             {
                 connection.Open();
 
@@ -89,9 +92,25 @@ namespace Talonario.Api.Server.InfraStructure.Repository
                                 WHERE [Id]=@Id", termo, transaction);
                         }
 
-                        connection.Execute(@"DELETE [dbo].[Inf_TermoConstatacao_AutosInfracao]
+                        if (termo.AutosInfracao != null)
+                        {
+                            connection.Execute(@"DELETE [dbo].[Inf_TermoConstatacao_AutosInfracao]
                                             WHERE [IdTermoConstatacao] = @Id",
                                             new { Id = termo.Id.Value }, transaction);
+
+                            if (termo.AutosInfracao.Any())
+                            {
+                                foreach (var auto in termo.AutosInfracao)
+                                {
+                                    auto.IdTermoConstatacao = termo.Id.Value;
+                                    auto.Id = connection.QuerySingle<int>(@"
+                                INSERT INTO [dbo].[Inf_TermoConstatacao_AutosInfracao]
+                                ([IdTermoConstatacao],[Numero],[Tipo])
+                                VALUES (@IdTermoConstatacao,@Numero,@Tipo);
+                                SELECT CAST(SCOPE_IDENTITY() as int)", auto, transaction);
+                                }
+                            }
+                        }
 
                         connection.Execute(@"DELETE [dbo].[Inf_TermoConstatacao_AvaliacaoCondutor]
                                             WHERE [IdTermoConstatacao] = @Id",
@@ -119,16 +138,6 @@ namespace Talonario.Api.Server.InfraStructure.Repository
                                 ([IdTermoConstatacao],[Descricao],[Tipo])
                                 VALUES (@IdTermoConstatacao,@Descricao,@Tipo);
                                 SELECT CAST(SCOPE_IDENTITY() as int)", avaliacao, transaction);
-                        }
-
-                        foreach (var auto in termo.AutosInfracao)
-                        {
-                            auto.IdTermoConstatacao = termo.Id.Value;
-                            auto.Id = connection.QuerySingle<int>(@"
-                                INSERT INTO [dbo].[Inf_TermoConstatacao_AutosInfracao]
-                                ([IdTermoConstatacao],[Numero],[Tipo])
-                                VALUES (@IdTermoConstatacao,@Numero,@Tipo);
-                                SELECT CAST(SCOPE_IDENTITY() as int)", auto, transaction);
                         }
 
                         transaction.Commit();
