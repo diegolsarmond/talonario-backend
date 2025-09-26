@@ -156,7 +156,10 @@ namespace Talonario.Api.Server.Application
             var infracaoEntity = InfracaoViewModelToInfracaoEntity(infracao);
             var resultInfracao = await _infracaoRepository.stp_Inf_Ws_AutoInfracaoEletronica_ins(infracaoEntity);
 
-            await _infracaoRepository.AtualizarInfracaoUsuarioDispositivo(IdTalonarioDispositivo.ToString(), sequencia.ToString());
+            if (resultInfracao == "SUCESSO")
+            {
+                await _infracaoRepository.AtualizarInfracaoUsuarioDispositivo(IdTalonarioDispositivo.ToString(), sequencia.ToString());
+            }
 
             return resultInfracao;
         }
@@ -220,7 +223,10 @@ namespace Talonario.Api.Server.Application
             var infracaoEntity = InfracaoViewModelToInfracaoEntity(infracao);
             var resultInfracao = _infracaoRepository.stp_Inf_Ws_AutoInfracaoEletronica_ins2(infracaoEntity);
 
-            _infracaoRepository.AtualizarInfracaoUsuarioDispositivo2(IdTalonarioDispositivo.ToString(), sequencia.ToString());
+            if (resultInfracao == "SUCESSO")
+            {
+                _infracaoRepository.AtualizarInfracaoUsuarioDispositivo2(IdTalonarioDispositivo.ToString(), sequencia.ToString());
+            }
 
             return resultInfracao;
         }
