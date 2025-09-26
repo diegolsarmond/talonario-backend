@@ -123,6 +123,18 @@ public class TamaService : ITamaService
     {
         var recibo = input.ReciboRetencao ?? new ReciboRetencaoViewModel();
 
+        var dataAssinaturaRecibo = recibo.DataAssinatura.HasValue && recibo.DataAssinatura.Value != default
+            ? recibo.DataAssinatura
+            : null;
+
+        var dataAssinaturaInput = input.DataAssinatura.HasValue && input.DataAssinatura.Value != default
+            ? input.DataAssinatura
+            : null;
+
+        var dataAssinaturaFinal = dataAssinaturaRecibo
+            ?? dataAssinaturaInput
+            ?? input.DataAplicacao;
+
         var viewModel = new TamaViewModel
         {
             NumeroTAMA = input.Id,
@@ -170,7 +182,7 @@ public class TamaService : ITamaService
             MatriculaAgente = input.AplicadoPorMatricula,
             UsuarioInclusao = input.AplicadoPor,
             DataHoraInclusao = input.DataAplicacao,
-            DataHoraAssinou = recibo.DataAssinatura != default ? recibo.DataAssinatura : input.DataAssinatura,
+            DataHoraAssinou = dataAssinaturaFinal,
             MatriculaAssinou = !string.IsNullOrEmpty(recibo.MatriculaAgenteAssinante)
             ? recibo.MatriculaAgenteAssinante
             : input.AplicadoPorMatricula,
