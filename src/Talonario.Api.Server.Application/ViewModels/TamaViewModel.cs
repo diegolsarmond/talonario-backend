@@ -171,7 +171,7 @@ namespace Talonario.Api.Server.Application.ViewModels
         public DateTime DataAplicacao { get; set; }
         public string Observacoes { get; set; }
         public string Assinatura { get; set; }
-        public DateTime DataAssinatura { get; set; }
+        public DateTime? DataAssinatura { get; set; }
         public string NomeAssinante { get; set; }
         public string IdAssinante { get; set; }
         public string CpfAssinante { get; set; }
@@ -208,7 +208,7 @@ namespace Talonario.Api.Server.Application.ViewModels
         public string CondutorCPF { get; set; }
         public string CondutorNome { get; set; }
         public string CondutorCNH { get; set; }
-        public DateTime DataAssinatura { get; set; }
+        public DateTime? DataAssinatura { get; set; }
         public string AssinaturaAgente { get; set; }
         public string NomeAgenteAssinante { get; set; }
         public string MatriculaAgenteAssinante { get; set; }
