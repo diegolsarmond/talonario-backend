@@ -135,12 +135,12 @@ namespace Talonario.Api.Server.Application.ViewModels
         public string EquipamentoConsiderado { get; set; }
 
         public string ProprietarioCNHCategoria { get; set; }
-        public DateTime ProprietarioCNHValidade { get; set; }
+        public DateTime? ProprietarioCNHValidade { get; set; }
         public string ProprietarioCNHEstado { get; set; }
         public int ProprietarioDocumentoTipo { get; set; }
         public string ProprietarioDocumentoNome { get; set; }
         public string ProprietarioNDocumento { get; set; }
-        public DateTime ProprietarioDataNascimento { get; set; }
+        public DateTime? ProprietarioDataNascimento { get; set; }
         public string ProprietarioNome { get; set; }
         public string ProprietarioNomePai { get; set; }
         public string ProprietarioNomeMae { get; set; }
