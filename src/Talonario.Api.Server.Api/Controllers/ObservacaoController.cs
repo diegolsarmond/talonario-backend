@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Talonario.Api.Server.Application.Interfaces.Services;
 
@@ -46,6 +47,10 @@ namespace Talonario.Api.Server.Api.Controllers
             try
             {
                 var observacoes = await _observacaoService.GetAllAtivos();
+
+                if (observacoes == null || !observacoes.Any())
+                    return NotFound("Não existe nenhuma operação cadastrada.");
+
                 return Ok(observacoes);
             }
             catch (Exception e)
